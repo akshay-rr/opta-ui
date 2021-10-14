@@ -1,0 +1,249 @@
+.active-screen {
+    background-color: #1A1A1A !important;
+}
+.p90{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}
+.placeholder-text {
+    color: #999;
+}
+#assetFile {
+    width: 98%;
+}
+#filePreviewContainer {
+    height: 50vh;
+}
+#traitsPreviewContainer {
+    max-height: 50vh;
+}
+#traitsContainer {
+    max-height: 40vh;
+}
+#traitsTable {
+    width: 96%;
+    padding: 10px;
+}
+#traitsTable > .row {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    margin-top: 5px;
+    padding: 5px
+}
+#traitsTable > .row > div > small {
+    color: #999;
+}
+#traitsTable > .row > div {
+    word-wrap: break-word;
+}
+.delete {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+}
+.delete > button {
+    text-decoration: none;
+    color:orangered;
+}
+#filePreview {
+    max-width: 100%;
+    max-height: 100%;
+}
+#noFilePreview {
+    height: 100%;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    justify-content: center;
+    display: flex;
+}
+#noFilePreview > span {
+    display: block;
+    padding: 10px;
+    width: 20%;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    color: #999;
+}
+#descriptionText {
+    color: #999;
+    word-wrap: break-word;
+}
+#descriptionContainer {
+    /* margin-top: 30px; */
+}
+#addTraitContainer {
+    font-size: 0.8em;
+    border: 2px solid #efefef;
+    padding: 1em;
+    border-radius: 5px;
+    background-color: #ddd;
+}
+#addTraitContainer > input {
+    height: 0.8em;
+}
+.container {
+    overflow-y: auto;
+    margin: 0 !important;
+    width: 100% !important;
+}
+.delete {
+    text-align: right;
+}
+.redbox {
+    border: 1px solid #ff0000;
+}
+#noDescription {
+    width: 250px;
+    margin-top: 30px;
+}
+.desc-row-sm {
+    background-color: #ccc;
+    height: 3px;
+    border-radius: 5px;
+    margin-top: 15px;
+    width: 80%;
+}
+.desc-row-bg {
+    background-color: #ccc;
+    height: 3px;
+    border-radius: 5px;
+    margin-top: 15px;
+    width: 100%;
+}
+.loading-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.card-container {
+    margin: 1em;
+}
+.image-placeholder{
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+.card-end {
+    margin-bottom: 10px;
+}
+.full-area-placeholder {
+    border: 1px solid #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+}
+.nav {
+    width: 80% !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#logo {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: 'vcr-osd-mono' !important;
+    text-align: center;
+    /* border: 1px solid red; */
+    margin-bottom: 2em;
+}
+
+.nav-pills .nav-link {
+    border-radius: 0.5em;
+}
+
+.navbar-main {
+    padding: 5em !important;
+    background-color: white !important;
+}
+
+.main {
+    height: 100vh;
+    height: -webkit-fill-available;
+    max-height: 100vh;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+main {
+    flex-grow: 1;
+}
+
+.footer {
+    width: 100%;
+    height: 60px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a1a1a;
+    color: white;
+    display: flex;
+}
+
+.topbar {
+    margin-top: 0.1em;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    /* border: 1px solid red; */
+    width: 100%;
+    flex-direction: row-reverse;
+}
+
+.footer-text {
+    font-size: 0.6em;
+    font-family: 'barlow-regular' !important;
+}
+
+#wallet-address {
+    font-family: 'vcr-osd-mono' !important;
+    color: white;
+    background-color: #1A1A1A;
+    padding: 0.25em;
+    border-radius: 0.25em;
+    margin: 0.25em;
+}
+
+#network-id {
+    font-family: 'vcr-osd-mono' !important;
+    color: white;
+    background-color: #1A1A1A;
+    padding: 0.25em;
+    border-radius: 0.25em;
+    margin: 0.25em;
+}
+
+.token-icon {
+    height: 20px;
+    width: auto;
+    margin: 0.1em;
+}
+
+.parcel-risk {
+    width: 90%;
+}
+
+.mini-heading {
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.parcel-cost {
+    margin-top: 1em;
+}
+
+.btn {
+    margin-top: 0.25em !important;
+}
