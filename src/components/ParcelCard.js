@@ -24,7 +24,12 @@ export function ParcelCard(props) {
         console.log('Parcel');
         console.log(parcel);
         const contract = new ContractDao(state);
-        contract.getEstimate(parcel.tokenAddresses, parcel.weights).then((netAmounts) => {
+
+        let tokenAddresses = parcel.getTokenAddresses();
+        let tokenWeights = parcel.getTokenWeights();
+        let tokenAmounts = parcel.getTokenAmounts();
+
+        contract.getEstimate(tokenAddresses, tokenAmounts).then((netAmounts) => {
             setAmounts(netAmounts);
         }).catch((error) => {
             console.log(error);
@@ -46,15 +51,17 @@ export function ParcelCard(props) {
                     <h5 className="card-title">{parcel.name}</h5>
                     <div className="card-text">
                         <div className="parcel-description">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            Vestibulum tempus orci ut fermentum mattis. Proin vulputate est sit amet bibendum rhoncus. 
+                            {parcel.description}
                         </div>
                         <br/>
                         <div className="parcel-token-list">
-                            <span className="mini-heading">Tokens ({parcel.tokenHeaders.length})</span> <br/>
+                            <span className="mini-heading">Tokens ({parcel.tokens.length})</span> <br/>
                             <div className="parcel-token-image-container">
-                                <img className="token-icon" src={bat}/>
-                                <img className="token-icon" src={link}/>
+                                {
+                                  parcel.tokens.map((token) => {
+                                    return <img className="token-icon" src={token.tokenHeader.logo}/>
+                                  })
+                                }
                             </div>
                         </div>
                         <br/>
@@ -62,7 +69,7 @@ export function ParcelCard(props) {
                             <div className="row">
                                 <div className="col-sm">
                                     <span className="mini-heading">Risk</span> <br/>
-                                    2
+                                    {parcel.risk}
                                 </div>
                                 <div className="col-sm">
                                     <span className="mini-heading">Unit Cost</span> <br/>

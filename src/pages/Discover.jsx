@@ -27,8 +27,8 @@ function Discover() {
   }, []);
 
   const getBaskets = async () => {
-    ParcelDao.getParcels().then((parcelsJsonList) => {
-      setParcels(ParcelAdapter.convertToParcelList(parcelsJsonList));
+    ParcelDao.getParcels().then((parcelList) => {
+      setParcels(parcelList);
     }); 
   };
 

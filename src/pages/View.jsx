@@ -1,19 +1,15 @@
 import '../App.css';
 import '../static/css/Dashboard.css';
 import '../static/css/sidebar.css';
-import bat from "../static/images/basic-attention-token-bat-logo.png";
-import link from "../static/images/chainlink-link-logo.png";
 import { useContext, useEffect, useState } from 'react';
 import AppContext from '../contexts/AppContext'
 import ParcelDao from '../dao/ParcelDao';
 import ContractDao from '../dao/ContractDao';
 import MoneyFormatUtils from '../utils/MoneyFormatUtils';
-import ParcelAdapter from '../utils/ParcelAdapter';
 import ReactLoading from 'react-loading';
 import { Navbar } from '../components/Navbar';
 import Web3Utils from '../utils/Web3Utils';
 import { Link } from 'react-router-dom';
-import ParcelEstimateException from '../exceptions/ParcelEstimateException';
 
 function View(props) {
   const contextFunctions = useContext(AppContext);
@@ -46,14 +42,8 @@ function View(props) {
   }, [loading]);
 
   const getBaskets = async () => {
-    const parcelsJsonList = await ParcelDao.getParcels();
-    const parcels = ParcelAdapter.convertToParcelList(parcelsJsonList);
-    const tempParcel = parcels.filter((entry) => {
-        return String(entry.id) === String(id);
-    });
-    console.log("SELECTED PARCEL");
-    console.log(tempParcel);
-    setParcel(tempParcel[0]);
+    const parcelTemp = await ParcelDao.getParcelById(id);
+    setParcel(parcelTemp);
   };
 
   const getChain = async () => {
@@ -141,21 +131,23 @@ function View(props) {
                     <h5 className="card-title">{parcel.name}</h5>
                     <div className="card-text">
                         <div className="parcel-description">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                            Vestibulum tempus orci ut fermentum mattis. Proin vulputate est sit amet bibendum rhoncus. 
+                            {parcel.description}
                         </div>
                         <br/>
                         <div className="parcel-token-list">
-                            <span className="mini-heading">Tokens ({parcel.tokenHeaders.length})</span> <br/>
+                            <span className="mini-heading">Tokens ({parcel.tokens.length})</span> <br/>
                             <div className="parcel-token-image-container">
-                                <img className="token-icon" src={bat}/>
-                                <img className="token-icon" src={link}/>
+                                {
+                                  parcel.tokens.map((token) => {
+                                    return <img className="token-icon" src={token.tokenHeader.logo}/>
+                                  })
+                                }
                             </div>
                         </div>
                         <br/>
                         <div className="parcel-risk">
                             <span className="mini-heading">Risk</span> <br/>
-                            2
+                            {parcel.risk}
                         </div>
                         <br/>
                         <div className="parcel-buy">

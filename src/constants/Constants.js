@@ -9,6 +9,15 @@ class Constants {
     static TEST_AMOUNT = "1000000000000000000000";
     static TEST_PARCEL = new Parcel(1, "TEST", [new TokenHeader('Basic Attention Token', 'BAT', 18)], [this.BAT_CONTRACT_ADDRESS], [this.TEST_AMOUNT]);
     static DISPLAY_PRECISION = 4;
-    static BACKEND_URL = "https://opta-v1-sd7xnovweq-el.a.run.app/API/baskets";
+    static BACKEND_URL = "https://opta-v1-sd7xnovweq-el.a.run.app/API/baskets?fillTokens";
+    static BASKET_BY_ID = this.BACKEND_URL + "&id=";
+
+    static getBaseDecimalValue = (decimals) => {
+        let value = "1";
+        for (var i = 0; i<decimals; i++) {
+            value+="0";
+        }
+        return value;
+    }
 }
 export default Constants;
