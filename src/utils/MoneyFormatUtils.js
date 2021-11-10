@@ -23,5 +23,12 @@ class MoneyFormatUtils {
         return n3.toString();
     }
 
+    static getTotalAmounts = (quantity, value) => {
+        const n1 = new BigNumber(value);
+        const n2 = new BigNumber(quantity);
+        const n3 = n1.multipliedBy(n2);
+        return n3.toString();
+    }
+
 }
 export default MoneyFormatUtils;

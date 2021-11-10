@@ -5,11 +5,11 @@ import { useContext, useEffect, useState } from 'react';
 import AppContext from '../contexts/AppContext'
 import ParcelDao from '../dao/ParcelDao';
 import ContractDao from '../dao/ContractDao';
-import MoneyFormatUtils from '../utils/MoneyFormatUtils';
 import ReactLoading from 'react-loading';
 import { Navbar } from '../components/Navbar';
 import Web3Utils from '../utils/Web3Utils';
 import { Link } from 'react-router-dom';
+import MoneyFormatUtils from '../utils/MoneyFormatUtils';
 
 function View(props) {
   const contextFunctions = useContext(AppContext);
@@ -18,8 +18,7 @@ function View(props) {
   const [parcel, setParcel] = useState();
   const [loading, setLoading] = useState(true);
   const [amtLoading, setAmtLoading] = useState(true);
-  const [amounts, setAmounts] = useState(["0", "0"]);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
   const id = props.match.params.id;
   console.log('ID: ' + id);
 
@@ -27,13 +26,6 @@ function View(props) {
     getBaskets().then(() => {
       console.log('Success');
       setLoading(false);
-      getEstimate(quantity).then((netAmounts) => {
-        setAmounts(netAmounts);
-      }).catch((error) => {
-        console.log(error);
-      }).finally(() => {
-        setAmtLoading(false);
-      });
     });
     getChain().then((chainId) => {
       console.log("Chain: " + chainId);
@@ -53,45 +45,43 @@ function View(props) {
 
   const buyParcel = () => {
     setLoading(true);
+
+    let tokenAddresses = parcel.getTokenAddresses();
+    let tokenAmounts = parcel.getTokenAmounts();
+
     const contract = new ContractDao(state);
-    const quantities = parcel.weights.map((entry) => {
-        return String(Number(quantity) * Number(entry));
-    }); 
-    contract.purchaseParcel(parcel.tokenAddresses, quantities, amounts[0]).then((netSpend) => {
-        console.log(netSpend);
-        alert(netSpend);
-    }).catch((error) => {
-        console.log(error);
-    }).finally(() => {
+    contract.getEstimate(tokenAddresses, tokenAmounts, quantity).then((netAmounts) => {
+      // alert(netAmounts);
+      let totalCost = netAmounts[0];
+      if(window.confirm("You are about to purchase " + quantity + " units of this basket for " + totalCost + ". Select OK to proceed")) {
+        contract.purchaseParcel(tokenAddresses, tokenAmounts, quantity, totalCost).then((txn) => {
+          console.log(txn);
+          window.open(Web3Utils.getTransactionUrl(txn.tx));
+        }).catch((error) => {
+          console.log(error);
+        }).finally(() => {
+          setLoading(false);
+        });
+      } else{
         setLoading(false);
+      }
     });
   };
 
-  const getEstimate = async (quantity) => {
-    const contract = new ContractDao(state);
-    const quantities = parcel.weights.map((entry) => {
-        return String(Number(quantity) * Number(entry));
-    }); 
-    const netAmounts = await contract.getEstimate(parcel.tokenAddresses, quantities);
-    return netAmounts;
+  const buyParcel1 = () => {
+    if(window.confirm(quantity)) {
+      alert("OK");
+    } else {
+      alert("NO");
+    }
   }
 
-  const quantityChange = (value) => {
-    setAmtLoading(true);
-    if(Number(value) > 0) {
-        setQuantity(Number(value));
-        getEstimate(Number(value)).then((netAmounts) => {
-            setAmounts(netAmounts);
-        }).catch((error) => {
-            console.log(error);
-        }).finally(() => {
-            setAmtLoading(false);
-        })
-        
+  const quantityChange = (event) => {
+    let value = event.target.value;
+    if (Number(value) > 0) {
+      setQuantity(Number(value));
     } else {
-        setQuantity(0);
-        setAmtLoading(false);
-        setAmounts(["0", "0"])
+      setQuantity(0);
     }
   }
 
@@ -106,10 +96,10 @@ function View(props) {
   return (
     <div class="main">
       <main>
-        <Navbar active={navbarActive}/>
+        <Navbar active={navbarActive} />
         <div className="container">
           <div className="topbar">
-            <div id="wallet-address">{contextFunctions.getAccount().substring(0,10)+'..'}</div>
+            <div id="wallet-address">{contextFunctions.getAccount().substring(0, 10) + '..'}</div>
             <div id="network-id">
               {
                 Web3Utils.getChainName(chain)
@@ -117,53 +107,88 @@ function View(props) {
             </div>
           </div>
           {
-              (loading) ?
-              <ReactLoading type="bubbles" color="#1a1a1a" />:
+            (loading) ?
+              <ReactLoading type="bubbles" color="#1a1a1a" /> :
               <div>
+                <br/>
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb">
                     <li class="breadcrumb-item"><Link to={"/Discover"}>Discover</Link></li>
                     <li class="breadcrumb-item active" aria-current="page">{parcel.name}</li>
                   </ol>
                 </nav>
-                <br/>
-                <div className="card-body">
-                    <h5 className="card-title">{parcel.name}</h5>
-                    <div className="card-text">
-                        <div className="parcel-description">
-                            {parcel.description}
+                <br />
+                <div class="container">
+                  <h1 className="card-title">{parcel.name}</h1>
+                  <div class="row">
+                    <div class="col">
+                      <div className="card-body">
+                        <div className="card-text">
+                          {/* <span className="mini-heading">Description</span> */}
+                          <div className="parcel-description-main">
+                              {parcel.description}
+                          </div>
+                          <br/>
+                          <div className="parcel-token-list">
+                              <span className="mini-heading">Composition ({parcel.tokens.length})</span><br/>
+                              <div className="parcel-token-image-container-main">
+                                <table>
+                                  <tbody>
+                                    {
+                                      parcel.tokens.map((token) => {
+                                        return <tr>
+                                          <td class="token-icon-container">
+                                            <img className="token-icon" src={token.tokenHeader.logo}/>
+                                          </td>
+                                          <td>
+                                            <span class="token-symbol">{token.tokenHeader.symbol}</span>
+                                            <span class="token-name">{token.tokenHeader.name}</span>
+                                          </td>
+                                          <td>
+                                            <span class="token-weight">{token.weight}</span>
+                                          </td>
+                                        </tr>
+                                      })
+                                    }
+                                  </tbody>
+                                </table>
+                              </div>
+                          </div>
+                          <br/>
                         </div>
                         <br/>
-                        <div className="parcel-token-list">
-                            <span className="mini-heading">Tokens ({parcel.tokens.length})</span> <br/>
-                            <div className="parcel-token-image-container">
-                                {
-                                  parcel.tokens.map((token) => {
-                                    return <img className="token-icon" src={token.tokenHeader.logo}/>
-                                  })
-                                }
-                            </div>
-                        </div>
-                        <br/>
-                        <div className="parcel-risk">
-                            <span className="mini-heading">Risk</span> <br/>
-                            {parcel.risk}
-                        </div>
-                        <br/>
-                        <div className="parcel-buy">
-                            <input type="number" placeholder="quantity" /><br/>
-                            <div class="parcel-cost">
-                                <span className="mini-heading">Unit Cost</span> <br/>
-                                {
-                                    (amtLoading) ? 
-                                    <ReactLoading type="bubbles" color="#1a1a1a" />:
-                                    MoneyFormatUtils.getBaseConvertedDenomination(amounts[0]) + " ETH"
-                                }
-                            </div><br/>
-                            <button type="button" class="btn btn-success" onClick={buyParcel} disabled={amounts[0]==="0"}>Purchase</button>
-                        </div>
+                      </div>
                     </div>
-                    <br/>
+                    <div class="col">
+                      <div class="parcel-metadata">
+                        <table>
+                          <tr>
+                            <td>
+                              <h3>{parcel.invested}<span class="smalltext">ETH</span></h3>
+                              <span class="subheading">Invested</span>
+                            </td>
+                            <td>
+                              <h3>{parcel.investors}</h3>
+                              <span class="subheading">Investors</span>
+                            </td>
+                            <td>
+                              <h3>{parcel.risk}</h3>
+                              <span class="subheading">Risk Level</span>
+                            </td>
+                          </tr>
+                        </table>
+                      </div>
+                      <br/>
+                      <div className="parcel-graph">
+                        Parcel Graph Placeholder
+                      </div>
+                      <br/>
+                      <div className="parcel-buy">
+                          <input type="number" placeholder="Purchase Quantity" className="parcel-buy-input" onChange={quantityChange}/>
+                          <button type="button" className="btn parcel-buy-button" onClick={buyParcel} disabled={quantity===0}>Buy</button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
           }

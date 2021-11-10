@@ -17,13 +17,13 @@ function Dashboard() {
   // console.log(await window.ethereum.request({ method: 'eth_getChainId' }));
 
   useEffect(() => {
-    getBaskets().then(() => {
-      console.log('Success');
-    });
-    getChain().then((chainId) => {
-      console.log("Chain: " + chainId);
-      setChain(chainId);
-    });
+    // getBaskets().then(() => {
+    //   console.log('Success');
+    // });
+    // getChain().then((chainId) => {
+    //   console.log("Chain: " + chainId);
+    //   setChain(chainId);
+    // });
   }, []);
 
   const getBaskets = async () => {

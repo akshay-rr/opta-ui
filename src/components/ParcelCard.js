@@ -1,14 +1,11 @@
 import '../App.css';
 import '../static/css/Dashboard.css';
 import '../static/css/sidebar.css';
-import bat from "../static/images/basic-attention-token-bat-logo.png";
-import link from "../static/images/chainlink-link-logo.png";
 import { useState, useContext, useEffect } from 'react';
 import AppContext from '../contexts/AppContext'
 import ContractDao from '../dao/ContractDao'; 
 import ReactLoading from 'react-loading';
 import MoneyFormatUtils from '../utils/MoneyFormatUtils';
-import ParcelAdapter from '../utils/ParcelAdapter';
 import { Link } from 'react-router-dom';
 
 export function ParcelCard(props) {
@@ -26,10 +23,9 @@ export function ParcelCard(props) {
         const contract = new ContractDao(state);
 
         let tokenAddresses = parcel.getTokenAddresses();
-        let tokenWeights = parcel.getTokenWeights();
         let tokenAmounts = parcel.getTokenAmounts();
 
-        contract.getEstimate(tokenAddresses, tokenAmounts).then((netAmounts) => {
+        contract.getEstimate(tokenAddresses, tokenAmounts, 1).then((netAmounts) => {
             setAmounts(netAmounts);
         }).catch((error) => {
             console.log(error);
@@ -37,10 +33,6 @@ export function ParcelCard(props) {
             setLoading(false);
         });
     }, [loading]);
-
-    const getTokenDetails = () => {
-        return ParcelAdapter.getParcelTokenDetails(parcel);
-    };
 
     return (
         <div className="card card-container" style={{width: 18+'rem'}}>
@@ -79,7 +71,6 @@ export function ParcelCard(props) {
                         </div>
                     </div>
                     <br/>
-                    {/* <button className=' btn btn-dark' onClick={buyParcel}>Buy</button> */}
                     <Link to={{pathname: "/Discover/" + parcel.id, parcel: parcel}}>
                         <button className=' btn btn-dark'>View</button>
                     </Link>

@@ -21,7 +21,7 @@ class Parcel {
         const risk = parcelJson.risk;
         const popularity = parcelJson.popularity;
         const investors = parcelJson.investors;
-        const invested = parcelJson.invested_value;
+        const invested = parcelJson.investedValue;
         const categories = parcelJson.categories;
 
         const tokens = parcelJson.tokens.map((entry) => {
