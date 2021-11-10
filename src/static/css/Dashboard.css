@@ -73,9 +73,7 @@
     color: #999;
     word-wrap: break-word;
 }
-#descriptionContainer {
-    /* margin-top: 30px; */
-}
+
 #addTraitContainer {
     font-size: 0.8em;
     border: 2px solid #efefef;
