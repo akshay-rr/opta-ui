@@ -17,18 +17,14 @@ function View(props) {
   const [chain, setChain] = useState("");
   const [parcel, setParcel] = useState();
   const [loading, setLoading] = useState(true);
-  const [amtLoading, setAmtLoading] = useState(true);
   const [quantity, setQuantity] = useState(0);
   const id = props.match.params.id;
-  console.log('ID: ' + id);
 
   useEffect(() => {
     getBaskets().then(() => {
-      console.log('Success');
       setLoading(false);
     });
     getChain().then((chainId) => {
-      console.log("Chain: " + chainId);
       setChain(chainId);
     });
   }, [loading]);
@@ -51,12 +47,13 @@ function View(props) {
 
     const contract = new ContractDao(state);
     contract.getEstimate(tokenAddresses, tokenAmounts, quantity).then((netAmounts) => {
-      // alert(netAmounts);
       let totalCost = netAmounts[0];
       if(window.confirm("You are about to purchase " + quantity + " units of this basket for " + totalCost + ". Select OK to proceed")) {
         contract.purchaseParcel(tokenAddresses, tokenAmounts, quantity, totalCost).then((txn) => {
-          console.log(txn);
-          window.open(Web3Utils.getTransactionUrl(txn.tx));
+          ParcelDao.addTransaction(txn.tx, contextFunctions.getState().userId, id, Number(MoneyFormatUtils.getBaseConvertedDenomination(totalCost)), Number(quantity)).then((transaction) => {
+            console.log(transaction);
+            window.open(Web3Utils.getTransactionUrl(txn.tx));
+          });
         }).catch((error) => {
           console.log(error);
         }).finally(() => {
@@ -67,14 +64,6 @@ function View(props) {
       }
     });
   };
-
-  const buyParcel1 = () => {
-    if(window.confirm(quantity)) {
-      alert("OK");
-    } else {
-      alert("NO");
-    }
-  }
 
   const quantityChange = (event) => {
     let value = event.target.value;
@@ -124,7 +113,6 @@ function View(props) {
                     <div class="col">
                       <div className="card-body">
                         <div className="card-text">
-                          {/* <span className="mini-heading">Description</span> */}
                           <div className="parcel-description-main">
                               {parcel.description}
                           </div>
@@ -136,7 +124,7 @@ function View(props) {
                                   <tbody>
                                     {
                                       parcel.tokens.map((token) => {
-                                        return <tr>
+                                        return <tr key={token.id}>
                                           <td class="token-icon-container">
                                             <img className="token-icon" src={token.tokenHeader.logo}/>
                                           </td>
@@ -162,20 +150,22 @@ function View(props) {
                     <div class="col">
                       <div class="parcel-metadata">
                         <table>
-                          <tr>
-                            <td>
-                              <h3>{parcel.invested}<span class="smalltext">ETH</span></h3>
-                              <span class="subheading">Invested</span>
-                            </td>
-                            <td>
-                              <h3>{parcel.investors}</h3>
-                              <span class="subheading">Investors</span>
-                            </td>
-                            <td>
-                              <h3>{parcel.risk}</h3>
-                              <span class="subheading">Risk Level</span>
-                            </td>
-                          </tr>
+                          <tbody>
+                            <tr>
+                              <td>
+                                <h3>{parcel.invested}<span class="smalltext">ETH</span></h3>
+                                <span class="subheading">Invested</span>
+                              </td>
+                              <td>
+                                <h3>{parcel.investors}</h3>
+                                <span class="subheading">Investors</span>
+                              </td>
+                              <td>
+                                <h3>{parcel.risk}</h3>
+                                <span class="subheading">Risk Level</span>
+                              </td>
+                            </tr>
+                          </tbody>
                         </table>
                       </div>
                       <br/>

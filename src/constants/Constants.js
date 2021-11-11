@@ -9,8 +9,14 @@ class Constants {
     static TEST_AMOUNT = "1000000000000000000000";
     static TEST_PARCEL = new Parcel(1, "TEST", [new TokenHeader('Basic Attention Token', 'BAT', 18)], [this.BAT_CONTRACT_ADDRESS], [this.TEST_AMOUNT]);
     static DISPLAY_PRECISION = 4;
-    static BACKEND_URL = "https://opta-v1-sd7xnovweq-el.a.run.app/API/baskets?fillTokens";
-    static BASKET_BY_ID = this.BACKEND_URL + "&id=";
+    // static BACKEND_URL = "https://opta-v1-sd7xnovweq-el.a.run.app/API";
+    static BACKEND_URL = "http://localhost:8000/API";
+    static BASKET_URL = this.BACKEND_URL + "/baskets?fillTokens";
+    static BASKET_BY_ID = this.BASKET_URL + "&id=";
+    static USERS_URL = this.BACKEND_URL + "/users";
+    static GET_USER_BY_WALLET = this.USERS_URL + "?walletAddress=";
+    static TRANSACTIONS_URL = this.BACKEND_URL + "/transactions";
+    static GET_TRANSACTION_BY_WALLET = this.TRANSACTION_URL + "?walletAddress=";
 
     static getBaseDecimalValue = (decimals) => {
         let value = "1";

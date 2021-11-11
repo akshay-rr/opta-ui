@@ -2,10 +2,7 @@ import '../App.css';
 import '../static/css/Dashboard.css';
 import '../static/css/sidebar.css';
 import { useContext, useEffect, useState } from 'react';
-import { ParcelCard } from '../components/ParcelCard';
 import AppContext from '../contexts/AppContext'
-import ParcelDao from '../dao/ParcelDao';
-import ParcelAdapter from '../utils/ParcelAdapter';
 import { Navbar } from '../components/Navbar';
 import Web3Utils from '../utils/Web3Utils';
 
@@ -14,7 +11,6 @@ function Dashboard() {
   const [chain, setChain] = useState("");
   const [parcels, setParcels] = useState([]);
 
-  // console.log(await window.ethereum.request({ method: 'eth_getChainId' }));
 
   useEffect(() => {
     // getBaskets().then(() => {
@@ -25,17 +21,6 @@ function Dashboard() {
     //   setChain(chainId);
     // });
   }, []);
-
-  const getBaskets = async () => {
-    ParcelDao.getParcels().then((parcelsJsonList) => {
-      setParcels(ParcelAdapter.convertToParcelList(parcelsJsonList));
-    }); 
-  };
-
-  const getChain = async () => {
-    const chain = await contextFunctions.getState().web3.eth.getChainId();
-    return chain;
-  }
 
   const navbarActive = {
     dashboard: 1,

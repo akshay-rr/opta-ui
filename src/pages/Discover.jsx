@@ -5,7 +5,6 @@ import { useContext, useEffect, useState } from 'react';
 import { ParcelCard } from '../components/ParcelCard';
 import AppContext from '../contexts/AppContext'
 import ParcelDao from '../dao/ParcelDao';
-import ParcelAdapter from '../utils/ParcelAdapter';
 import { Navbar } from '../components/Navbar';
 import Web3Utils from '../utils/Web3Utils';
 
@@ -46,7 +45,7 @@ function Discover() {
   };
 
   return (
-    <div class="main">
+    <div className="main">
       <main>
         <Navbar active={navbarActive}/>
         <div className="container">

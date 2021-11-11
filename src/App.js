@@ -20,7 +20,10 @@ function App() {
   const InitialAppState = {
     web3Provider: null,
     contracts: {},
-    account: '0x0'    
+    account: '0x0',
+    userId: null,
+    firstName: null,
+    lastName: null    
   }
 
   if (typeof window.web3 !== 'undefined') {
@@ -50,11 +53,14 @@ function App() {
   const [state, setState] = useState(InitialAppState);
 
   const contextFunctions = {
-    signIn: (account) => {
-      console.log('Signing in: ' + account);
+    signIn: (user) => {
+      console.log('Signing in: ' + user.walletAddress);
       setState({
         ...state,
-        account: account
+        account: user.walletAddress,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        userId: user._id.$oid
       });
     },
     getAccount: () => {

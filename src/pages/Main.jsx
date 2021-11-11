@@ -3,16 +3,37 @@ import '../App.css';
 import { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
+import ParcelDao from '../dao/ParcelDao';
 
 function Main() {
 
   const contextFunctions = useContext(AppContext);
   console.log(contextFunctions);
 
+  var login = async (walletAddress) => {
+    var user = await ParcelDao.getUser(walletAddress);
+    console.log("FETCHED USER");
+    console.log(user);
+    if (user.length > 0) {
+      return user[0];
+    }
+    user = await ParcelDao.createUser({
+      firstName: "TEST",
+      lastName: "TEST",
+      email: "TEST",
+      walletAddress: walletAddress
+    });
+    return user[0];
+  }
+
   var connectToEthereum = async () => {
     //Will Start the metamask extension
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    contextFunctions.signIn(accounts[0]);
+    console.log("Step 1: " + accounts[0]);
+    const user = await login(accounts[0]);
+    console.log("Step 2: ");
+    console.log(user);
+    contextFunctions.signIn(user);
   };
 
 
