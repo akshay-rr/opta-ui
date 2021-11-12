@@ -10,11 +10,20 @@ import { Navbar } from '../components/Navbar';
 import Web3Utils from '../utils/Web3Utils';
 import { Link } from 'react-router-dom';
 import MoneyFormatUtils from '../utils/MoneyFormatUtils';
+import { Topbar } from '../components/Topbar';
+import Footer from '../components/Footer';
+
+const navbarActive = {
+  dashboard: 0,
+  discover: 1,
+  construct: 0,
+  manage: 0,
+  help: 0
+};
 
 function View(props) {
   const contextFunctions = useContext(AppContext);
   const state = contextFunctions.getState();
-  const [chain, setChain] = useState("");
   const [parcel, setParcel] = useState();
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(0);
@@ -24,20 +33,12 @@ function View(props) {
     getBaskets().then(() => {
       setLoading(false);
     });
-    getChain().then((chainId) => {
-      setChain(chainId);
-    });
   }, [loading]);
 
   const getBaskets = async () => {
     const parcelTemp = await ParcelDao.getParcelById(id);
     setParcel(parcelTemp);
   };
-
-  const getChain = async () => {
-    const chain = await contextFunctions.getState().web3.eth.getChainId();
-    return chain;
-  }
 
   const buyParcel = () => {
     setLoading(true);
@@ -74,27 +75,12 @@ function View(props) {
     }
   }
 
-  const navbarActive = {
-    dashboard: 0,
-    discover: 1,
-    construct: 0,
-    manage: 0,
-    help: 0
-  };
-
   return (
     <div class="main">
       <main>
         <Navbar active={navbarActive} />
         <div className="container">
-          <div className="topbar">
-            <div id="wallet-address">{contextFunctions.getAccount().substring(0, 10) + '..'}</div>
-            <div id="network-id">
-              {
-                Web3Utils.getChainName(chain)
-              }
-            </div>
-          </div>
+          <Topbar/>
           {
             (loading) ?
               <ReactLoading type="bubbles" color="#1a1a1a" /> :
@@ -184,9 +170,7 @@ function View(props) {
           }
         </div>
       </main>
-      <div className="footer">
-        <span className="footer-text">O P T A . F I N A N C E</span>
-      </div>
+      <Footer/>
     </div>
   );
 }

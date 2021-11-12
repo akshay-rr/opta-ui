@@ -23,6 +23,12 @@
     src: url('../fonts/Barlow-Medium.ttf');
   }
 
+  @font-face {
+    font-family: 'barlow-semibold';
+    src: url('../fonts/Barlow-SemiBold.ttf');
+  }
+
+
   main {
     display: flex;
     flex-wrap: nowrap;

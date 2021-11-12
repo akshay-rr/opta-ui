@@ -215,12 +215,16 @@ main {
 }
 
 #network-id {
-    font-family: 'vcr-osd-mono' !important;
-    color: white;
-    background-color: #1A1A1A;
+    border: 2px solid #5effaf;
+    background-color: #42c7892c;
+    color: #5effaf;
     padding: 0.25em;
     border-radius: 0.25em;
     margin: 0.25em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .token-icon {
@@ -354,4 +358,18 @@ main {
 .breadcrumb-item a:hover {
     text-decoration: underline !important;
     color: #6c757d !important;
+}
+
+.network-name {
+    font-family: 'vcr-osd-mono' !important;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.circle {
+    height: 16px;
+    width: 16px;
+    background-color: #5effaf;
+    border-radius: 100%;
+    margin-left: 8px;
 }

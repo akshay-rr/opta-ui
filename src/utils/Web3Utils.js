@@ -9,9 +9,10 @@ class Web3Utils {
     static getChainName = (chainId) => {
         let chainName = this.chainMap[String(chainId)];
         if(chainName) {
-            return chainName;
+            console.log(chainName.toUpperCase());
+            return chainName.toUpperCase();
         }
-        return "Chain " + chainId;
+        return "CHAIN " + chainId;
     }
 
     static getTransactionUrl = (txn) => {

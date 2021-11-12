@@ -1,5 +1,3 @@
-import logo from '../static/svgs/metamask-fox.svg';
-
 import '../App.css';
 import '../static/css/Dashboard.css';
 import '../static/css/sidebar.css';
@@ -43,16 +41,16 @@ export function Navbar(props) {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="#" active={props.active.construct}>
+                    {/* <NavLink to="#" active={props.active.construct}>
                         <i class="bi bi-grid me-2"></i>
                         Construct
-                    </NavLink>
+                    </NavLink> */}
                 </li>
                 <li>
-                    <NavLink to="#" active={props.active.manage}>
+                    {/* <NavLink to="#" active={props.active.manage}>
                         <i class="bi bi-bag-plus me-2"></i>
                         Manage
-                    </NavLink>
+                    </NavLink> */}
                 </li>
                 <hr/>
                 <li>
