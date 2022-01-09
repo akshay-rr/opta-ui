@@ -27,6 +27,7 @@ function View(props) {
   const [parcel, setParcel] = useState();
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(0);
+  const [priceFeed, setPriceFeed] = useState([]);
   const id = props.match.params.id;
 
   useEffect(() => {
@@ -37,6 +38,8 @@ function View(props) {
 
   const getBaskets = async () => {
     const parcelTemp = await ParcelDao.getParcelById(id);
+    const prices = await ParcelDao.getBasketPriceHistory(id);
+    setPriceFeed(prices);
     setParcel(parcelTemp);
   };
 
@@ -156,7 +159,11 @@ function View(props) {
                       </div>
                       <br/>
                       <div className="parcel-graph">
-                        Parcel Graph Placeholder
+                        {
+                          // (priceFeed.length > 0) ?
+                          // priceFeed.toString() :
+                          "Parcel Graph Placeholder"
+                        }
                       </div>
                       <br/>
                       <div className="parcel-buy">

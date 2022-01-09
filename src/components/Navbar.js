@@ -22,9 +22,9 @@ export function Navbar(props) {
     const contextFunctions = useContext(AppContext);
 
     return (
-        <div id="navbar-main" class="d-flex flex-column flex-shrink-0 p-3">
-            <Link to="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <div id="logo"><span class="fs-6">O P T A . F I N A N C E</span></div>
+        <div id="navbar-main" class="d-flex flex-column flex-shrink-0 p-3 redbox">
+            <Link to="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none logo">
+                <div id="logo"><span class="fs-6">O P T A</span></div>
             </Link>
             <br/>
             <ul class="nav nav-pills flex-column mb-auto">
@@ -41,18 +41,30 @@ export function Navbar(props) {
                     </NavLink>
                 </li>
                 <li>
-                    {/* <NavLink to="#" active={props.active.construct}>
+                    <NavLink to="/NFT" active={props.active.nft}>
                         <i class="bi bi-grid me-2"></i>
-                        Construct
-                    </NavLink> */}
+                        NFT
+                    </NavLink>
                 </li>
                 <li>
-                    {/* <NavLink to="#" active={props.active.manage}>
+                    <NavLink to="/DAO" active={props.active.dao}>
                         <i class="bi bi-bag-plus me-2"></i>
-                        Manage
-                    </NavLink> */}
+                        DAO
+                    </NavLink>
                 </li>
                 <hr/>
+                <li>
+                    <NavLink to="#" active={props.active.learn}>
+                        <i class="bi bi-bag-plus me-2"></i>
+                        Learn
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="#" active={props.active.about}>
+                        <i class="bi bi-bag-plus me-2"></i>
+                        About
+                    </NavLink>
+                </li>
                 <li>
                     <NavLink to="#" active={props.active.help}>
                         <i class="bi bi-bag-plus me-2"></i>

@@ -78,6 +78,18 @@ class ParcelDao {
         return data;
     }
 
+    static getBasketPriceHistory = async (basketId) => {
+        const response = await fetch(Constants.FETCH_BASKET_PRICE_HISTORY + basketId, {
+            method: 'GET',
+            mode: 'cors',
+            headers: {
+                'Access-Control-Allow-Origin':'*'
+            }
+        });
+        const data = await response.json();
+        return data;
+    }
+
     static convertToParcelList = (parcelJsonList) => {
         let parcelList = [];
         for (var i = 0; i < parcelJsonList.length; i++) {

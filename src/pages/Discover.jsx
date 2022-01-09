@@ -36,21 +36,21 @@ function Discover() {
 
   return (
     <div className="main">
-      <main>
+      <div className="dynamic-main">
         <Navbar active={navbarActive}/>
-        <div className="container">
+        <div className="container redbox">
           <Topbar/>
           <div>
-            {
+            {/* {
               parcels.map(item => {
                 return (
                   <ParcelCard key={item.id} id={item.id} parcel={item}/>
                 );
               })
-            }
+            } */}
           </div>
         </div>
-      </main>
+      </div>
       <Footer/>
     </div>
   );

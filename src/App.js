@@ -14,6 +14,8 @@ import Discover from './pages/Discover';
 import AppContext from './contexts/AppContext';
 import Dashboard from './pages/Dashboard';
 import View from './pages/View';
+import NFT from './pages/NFT';
+import DAO from './pages/DAO';
 
 function App() {
   
@@ -95,6 +97,8 @@ function App() {
             <Route exact path="/Dashboard" component={Dashboard} />
             <Route exact path="/Discover" component={Discover} />
             <Route exact path="/Discover/:id" component={View} />
+            <Route exact path="/NFT" component={NFT} />
+            <Route exact path="/DAO" component={DAO} />
             <Route exact path="/404" component={NotFound} />
             <Redirect to="/404" />
           </Switch>

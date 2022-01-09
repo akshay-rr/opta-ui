@@ -4,24 +4,18 @@ import '../static/css/sidebar.css';
 import { Navbar } from '../components/Navbar';
 import Footer from '../components/Footer';
 import { Topbar } from '../components/Topbar';
-import { useEffect, useContext } from 'react';
-import AppContext from '../contexts/AppContext'
 
 const navbarActive = {
-  dashboard: 1,
+  dashboard: 0,
   discover: 0,
-  construct: 0,
-  manage: 0,
+  nft: 0,
+  dao: 1,
+  learn: 0,
+  about: 0,
   help: 0
 };
 
-function Dashboard() {
-  const contextFunctions = useContext(AppContext);
-  const state = contextFunctions.getState();
-
-  useEffect(() => {
-    console.log(state);
-  });
+function NFT() {
 
   return (
     <div className="main">
@@ -30,7 +24,7 @@ function Dashboard() {
         <div className="container redbox">
           <Topbar/>
           <div>
-            Dashboard
+            NFT
           </div>
         </div>
       </div>
@@ -39,4 +33,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default NFT;
