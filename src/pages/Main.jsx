@@ -1,39 +1,20 @@
 import logo from '../static/svgs/metamask-fox.svg';
+import grid from '../static/images/grid1.gif';
 import '../App.css';
 import { useContext } from 'react';
 import AppContext from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
-import ParcelDao from '../dao/ParcelDao';
 
 function Main() {
 
   const contextFunctions = useContext(AppContext);
   console.log(contextFunctions);
 
-  var login = async (walletAddress) => {
-    var user = await ParcelDao.getUser(walletAddress);
-    console.log("FETCHED USER");
-    console.log(user);
-    if (user.length > 0) {
-      return user[0];
-    }
-    user = await ParcelDao.createUser({
-      firstName: "TEST",
-      lastName: "TEST",
-      email: "TEST",
-      walletAddress: walletAddress
-    });
-    return user[0];
-  }
-
   var connectToEthereum = async () => {
     //Will Start the metamask extension
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     console.log("Step 1: " + accounts[0]);
-    const user = await login(accounts[0]);
-    console.log("Step 2: ");
-    console.log(user);
-    contextFunctions.signIn(user);
+    contextFunctions.signIn(accounts[0]);
   };
 
 
@@ -53,8 +34,7 @@ function Main() {
   var ConnectToWeb3Button = () => {
     return (
       <button type="button" className="btn btn-dark enableEthereumButton" onClick={connectToEthereum}>
-        <img src={logo} className="App-logo" alt="logo" width="50" />
-        <br/>
+        <img src={logo} className="App-logo" alt="logo" width="20" />
         <small>Connect</small>
       </button>
     );
@@ -65,16 +45,41 @@ function Main() {
   };
 
   return (
-    <div className="App">
-      <header className="App-header">
-        {
-          (typeof window.ethereum !== 'undefined') ? 
-          (contextFunctions.getAccount() === '0x0') ?
-          <ConnectToWeb3Button /> :
-          <ActiveAccountDetail /> :
-          <MissingWeb3Provider />
-        }
-      </header>
+    <div id={'home-container'}>
+        <div className="topbar"></div>
+        <div id={'home-content'}>
+            <div className='logo'>O P T A . F I N A N C E</div>
+            {/* <div className='row'>
+                <div className='col-4 home-content-child'>
+                    Bulk Purchase
+                </div>
+                <div className='col-4 home-content-child'>
+                    Save Gas 
+                </div>
+                <div className='col-4 home-content-child'>
+                    ABCD
+                </div>
+            </div> */}
+            <div className='row'>
+              <img id={'grid-gif'} src={grid} width={30} />
+            </div>
+            <div id='subtitle'>
+              <small>
+                Enabling bulk purchase of cryptocurrencies
+              </small>
+            </div>
+            <div className='row'>
+                <div id={'button-container-row'} className='col-12'>
+                  {
+                    (typeof window.ethereum !== 'undefined') ? 
+                    (contextFunctions.getAccount() === '0x0') ?
+                    <ConnectToWeb3Button /> :
+                    <ActiveAccountDetail /> :
+                    <MissingWeb3Provider />
+                  }
+                </div>
+            </div>
+        </div>
     </div>
   );
 }

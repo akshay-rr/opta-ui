@@ -26,7 +26,6 @@ export function Topbar() {
         <div className="topbar">
             <div id="wallet-address">{contextFunctions.getAccount().substring(0, 10) + '..'}</div>
             <div id="network-id">
-                <div class="circle"></div>
                 <div class="network-name">
                     {
                     Web3Utils.getChainName(chain)

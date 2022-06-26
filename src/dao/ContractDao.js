@@ -14,7 +14,6 @@ class ContractDao {
             });
             let contractInstance = await this.state.mainContract.at(Constants.CONTRACT_RINKEBY_ADDRESS);
             let netAmounts = await contractInstance.getNetAmountIn(tokenAddresses, totalAmounts);
-            console.log("Fetched Amounts: %s", netAmounts);
             return netAmounts;
         } catch (e) {
             console.error(e);

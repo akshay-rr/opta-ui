@@ -4,6 +4,11 @@
 }
 
 @font-face {
+  font-family: 'roboto';
+  src: url('./static/fonts/Roboto-Regular.ttf');
+}
+
+@font-face {
   font-family: 'vcr-osd-mono';
   src: url('./static/fonts/VCR_OSD_MONO.ttf');
 }
@@ -24,7 +29,7 @@ html {
 
 body {
   margin: 0;
-  font-family: 'barlow-medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'roboto', 'barlow-medium', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -210,25 +210,21 @@
 }
 
 #wallet-address {
-    font-family: 'vcr-osd-mono' !important;
     color: white;
     background-color: #1A1A1A;
     padding: 0.25em;
     border-radius: 0.25em;
     margin: 0.25em;
+    font-size: 0.8em;
 }
 
 #network-id {
-    border: 2px solid #5effaf;
-    background-color: #42c7892c;
+    border: 1px solid #5effaf;
     color: #5effaf;
     padding: 0.25em;
     border-radius: 0.25em;
     margin: 0.25em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
+    font-size: 0.8em;
 }
 
 .token-icon {
@@ -376,4 +372,77 @@
     background-color: #5effaf;
     border-radius: 100%;
     margin-left: 8px;
+}
+
+#home-content, #buy-content {
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    max-width: 500px;
+}
+
+.home-content-child {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 120px;
+}
+
+#go-to-buy-button {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #1A1A1A;
+    border-radius: 5px;
+    text-align: center;
+    border: none;
+    color: white;
+}
+
+#button-container-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#step1-header, #step2-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#next-step {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse;
+}
+
+#grid-gif {
+    width: 100px !important;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#subtitle {
+    text-align: center !important;
+}
+
+.home-img {
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+}
+
+.home-img:hover {
+    -webkit-filter: none;
+    filter: none;
+}
+
+#step-2-error {
+    padding: 1em;
+    border: 1px solid red;
+    color: red;
+    font-size: 0.6em;
+    font-weight: bold;
+    border-radius: 5px;
 }

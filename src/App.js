@@ -3,66 +3,47 @@ import './static/css/sidebar.css';
 import Web3 from 'web3';
 import TruffleContract from '@truffle/contract';
 import Contract from './contracts/Contract.json';
-
 import { useState } from 'react';
 import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
-
-import Main from './pages/Main';
-import NotFound from './pages/NotFound';
-import Discover from './pages/Discover';
-
 import AppContext from './contexts/AppContext';
-import Dashboard from './pages/Dashboard';
-import View from './pages/View';
-import NFT from './pages/NFT';
-import DAO from './pages/DAO';
+import Home from './pages/Home';
+import Buy from './pages/Buy';
+import Main from './pages/Main';
+import NotFound from './pages/NotFound';;
 
 function App() {
   
   const InitialAppState = {
     web3Provider: null,
     contracts: {},
-    account: '0x0',
-    userId: null,
-    firstName: null,
-    lastName: null    
+    account: '0x0'   
   }
 
-  if (typeof window.web3 !== 'undefined') {
-    console.log('T1: ' + window.web3);
-    InitialAppState.web3Provider = window.web3.currentProvider;
-  } else {
-    console.log('T2: ' + window.web3);
-    InitialAppState.web3Provider = new Web3.providers.HttpProvider('http://localhost:7545');
-  }
+  InitialAppState.web3Provider = window.web3.currentProvider;
 
   InitialAppState.web3 = new Web3(InitialAppState.web3Provider);
 
   InitialAppState.mainContract = TruffleContract(Contract);
   InitialAppState.mainContract.setProvider(InitialAppState.web3Provider);
 
-  console.log('111');
-  console.log(InitialAppState.mainContract);
-
   InitialAppState.web3.eth.getAccounts((err, accounts) => {
     if(err === null) {
-      // console.log('Test');
-      // console.log(accounts);
       InitialAppState.account = accounts[0];
     }
+  });
+
+  InitialAppState.web3.eth.getChainId().then((chainId) => {
+    InitialAppState.chainId = chainId;
   });
 
   const [state, setState] = useState(InitialAppState);
 
   const contextFunctions = {
-    signIn: (user) => {
-      console.log('Signing in: ' + user.walletAddress);
+    signIn: (address) => {
+      console.log('Signing in: ' + address);
       setState({
         ...state,
-        account: user.walletAddress,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        userId: user._id.$oid
+        account: address,
       });
     },
     getAccount: () => {
@@ -72,8 +53,6 @@ function App() {
       return state;
     }
   }
-
-  console.log(state);
 
   const DisconnectedApp = () => {
     return (
@@ -93,12 +72,9 @@ function App() {
       <AppContext.Provider value={contextFunctions}>
         <Router>
           <Switch>
-            <Route exact path="/" component={Discover} />
-            <Route exact path="/Dashboard" component={Dashboard} />
-            <Route exact path="/Discover" component={Discover} />
-            <Route exact path="/Discover/:id" component={View} />
-            <Route exact path="/NFT" component={NFT} />
-            <Route exact path="/DAO" component={DAO} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/Home" component={Home} />
+            <Route exact path="/Buy" component={Buy} />
             <Route exact path="/404" component={NotFound} />
             <Redirect to="/404" />
           </Switch>
